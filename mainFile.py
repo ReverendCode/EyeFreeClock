@@ -1,7 +1,12 @@
 #Python is different and scary and I don't like change
 #I guess I probably need these
 import readchar
+import os
 from sound import Sound
+
+#   Picture a set of spinners with Days / Hours / Minutes on them,
+#   you can move between the spinners, and spin them each direction
+
 
 #first there probably should be some kind of response lists
 
@@ -12,114 +17,97 @@ clock_menu = [
     Sound(MENUS + "Set_hour_f.wav"),
     Sound(MENUS + "Set_minutes_f.wav")
 ]
+#programmatically add the sounds to the appropriate spinners (lists)
+days = []
+DAYS_DIR = "./sounds/days_of_week/"
+for file in os.listdir(DAYS_DIR):
+    if file.endswith(".wav"):
+        days.insert(len(days),Sound(DAYS_DIR + file))
 
-#days of the week
-DAYF = "wav_files/days_of_week_f/"
-days = [
-    Sound(DAYF + "sunday_f.wav"),
-    Sound(DAYF + "monday_f.wav"),
-    Sound(DAYF + "tuesday_f.wav"),
-    Sound(DAYF + "wednesday_f.wav"),
-    Sound(DAYF + "thursday_f.wav"),
-    Sound(DAYF + "friday_f.wav"),
-    Sound(DAYF + "saturday_f.wav")
-]
+
 
 #hours
-HOURF = "wav_files/hours_f/"
-hours = [
-    Sound(HOURF + "1AM_f.wav"),
-    Sound(HOURF + "2AM_f.wav"),
-    Sound(HOURF + "3AM_f.wav"),
-    Sound(HOURF + "4AM_f.wav"),
-    Sound(HOURF + "5AM_f.wav"),
-    Sound(HOURF + "6AM_f.wav"),
-    Sound(HOURF + "7AM_f.wav"),
-    Sound(HOURF + "8AM_f.wav"),
-    Sound(HOURF + "9AM_f.wav"),
-    Sound(HOURF + "10AM_f.wav"),
-    Sound(HOURF + "11AM_f.wav"),
-    Sound(HOURF + "12AM_f.wav"),
-    Sound(HOURF + "1PM_f.wav"),
-    Sound(HOURF + "2PM_f.wav"),
-    Sound(HOURF + "3PM_f.wav"),
-    Sound(HOURF + "4PM_f.wav"),
-    Sound(HOURF + "5PM_f.wav"),
-    Sound(HOURF + "6PM_f.wav"),
-    Sound(HOURF + "7PM_f.wav"),
-    Sound(HOURF + "8PM_f.wav"),
-    Sound(HOURF + "9PM_f.wav"),
-    Sound(HOURF + "10PM_f.wav"),
-    Sound(HOURF + "11PM_f.wav"),
-    Sound(HOURF + "12PM_f.wav")
-]
+hours = []
+HOURS_AM_DIR = "./sounds/hours_am_pm/hours_am/"
+HOURS_PM_DIR = "./sounds/hours_am_pm/hours_pm/"
+for file in os.listdir(HOURS_AM_DIR):
+    if file.endswith(".wav"):
+        hours.insert(len(hours),Sound(HOURS_AM_DIR + file))
+for file2 in os.listdir(HOURS_PM_DIR):
+    if file2.endswith(".wav"):
+        hours.insert(len(hours),Sound(HOURS_PM_DIR + file2))
 
 #minutes (maybe seperate tens and 0-9 to avoid potential 30 presses)
-MINF = "wav_files/minutes_f/"
 # If I knew python better I would generate these programmatically, but this is literally the first time I have ever seen
 # this language, I do like the intelliJ based ide though (PyCharm)
+
+# Update: turns out it wasn't that hard after all, I am leaving this huge list as a testament to my silliness
 minutes = [
-    Sound(MINF + "00_f.wav"),
-    Sound(MINF + "01_f.wav"),
-    Sound(MINF + "02_f.wav"),
-    Sound(MINF + "03_f.wav"),
-    Sound(MINF + "04_f.wav"),
-    Sound(MINF + "05_f.wav"),
-    Sound(MINF + "06_f.wav"),
-    Sound(MINF + "07_f.wav"),
-    Sound(MINF + "08_f.wav"),
-    Sound(MINF + "09_f.wav"),
-    Sound(MINF + "10_f.wav"),
-    Sound(MINF + "11_f.wav"),
-    Sound(MINF + "12_f.wav"),
-    Sound(MINF + "13_f.wav"),
-    Sound(MINF + "14_f.wav"),
-    Sound(MINF + "15_f.wav"),
-    Sound(MINF + "16_f.wav"),
-    Sound(MINF + "17_f.wav"),
-    Sound(MINF + "18_f.wav"),
-    Sound(MINF + "19_f.wav"),
-    Sound(MINF + "20_f.wav"),
-    Sound(MINF + "21_f.wav"),
-    Sound(MINF + "22_f.wav"),
-    Sound(MINF + "23_f.wav"),
-    Sound(MINF + "24_f.wav"),
-    Sound(MINF + "25_f.wav"),
-    Sound(MINF + "26_f.wav"),
-    Sound(MINF + "27_f.wav"),
-    Sound(MINF + "28_f.wav"),
-    Sound(MINF + "29_f.wav"),
-    Sound(MINF + "30_f.wav"),
-    Sound(MINF + "31_f.wav"),
-    Sound(MINF + "32_f.wav"),
-    Sound(MINF + "33_f.wav"),
-    Sound(MINF + "34_f.wav"),
-    Sound(MINF + "35_f.wav"),
-    Sound(MINF + "36_f.wav"),
-    Sound(MINF + "37_f.wav"),
-    Sound(MINF + "38_f.wav"),
-    Sound(MINF + "39_f.wav"),
-    Sound(MINF + "40_f.wav"),
-    Sound(MINF + "41_f.wav"),
-    Sound(MINF + "42_f.wav"),
-    Sound(MINF + "43_f.wav"),
-    Sound(MINF + "44_f.wav"),
-    Sound(MINF + "45_f.wav"),
-    Sound(MINF + "46_f.wav"),
-    Sound(MINF + "47_f.wav"),
-    Sound(MINF + "48_f.wav"),
-    Sound(MINF + "49_f.wav"),
-    Sound(MINF + "50_f.wav"),
-    Sound(MINF + "51_f.wav"),
-    Sound(MINF + "52_f.wav"),
-    Sound(MINF + "53_f.wav"),
-    Sound(MINF + "54_f.wav"),
-    Sound(MINF + "55_f.wav"),
-    Sound(MINF + "56_f.wav"),
-    Sound(MINF + "57_f.wav"),
-    Sound(MINF + "58_f.wav"),
-    Sound(MINF + "59_f.wav")
+    # Sound(MINF + "00_f.wav"),
+    # Sound(MINF + "01_f.wav"),
+    # Sound(MINF + "02_f.wav"),
+    # Sound(MINF + "03_f.wav"),
+    # Sound(MINF + "04_f.wav"),
+    # Sound(MINF + "05_f.wav"),
+    # Sound(MINF + "06_f.wav"),
+    # Sound(MINF + "07_f.wav"),
+    # Sound(MINF + "08_f.wav"),
+    # Sound(MINF + "09_f.wav"),
+    # Sound(MINF + "10_f.wav"),
+    # Sound(MINF + "11_f.wav"),
+    # Sound(MINF + "12_f.wav"),
+    # Sound(MINF + "13_f.wav"),
+    # Sound(MINF + "14_f.wav"),
+    # Sound(MINF + "15_f.wav"),
+    # Sound(MINF + "16_f.wav"),
+    # Sound(MINF + "17_f.wav"),
+    # Sound(MINF + "18_f.wav"),
+    # Sound(MINF + "19_f.wav"),
+    # Sound(MINF + "20_f.wav"),
+    # Sound(MINF + "21_f.wav"),
+    # Sound(MINF + "22_f.wav"),
+    # Sound(MINF + "23_f.wav"),
+    # Sound(MINF + "24_f.wav"),
+    # Sound(MINF + "25_f.wav"),
+    # Sound(MINF + "26_f.wav"),
+    # Sound(MINF + "27_f.wav"),
+    # Sound(MINF + "28_f.wav"),
+    # Sound(MINF + "29_f.wav"),
+    # Sound(MINF + "30_f.wav"),
+    # Sound(MINF + "31_f.wav"),
+    # Sound(MINF + "32_f.wav"),
+    # Sound(MINF + "33_f.wav"),
+    # Sound(MINF + "34_f.wav"),
+    # Sound(MINF + "35_f.wav"),
+    # Sound(MINF + "36_f.wav"),
+    # Sound(MINF + "37_f.wav"),
+    # Sound(MINF + "38_f.wav"),
+    # Sound(MINF + "39_f.wav"),
+    # Sound(MINF + "40_f.wav"),
+    # Sound(MINF + "41_f.wav"),
+    # Sound(MINF + "42_f.wav"),
+    # Sound(MINF + "43_f.wav"),
+    # Sound(MINF + "44_f.wav"),
+    # Sound(MINF + "45_f.wav"),
+    # Sound(MINF + "46_f.wav"),
+    # Sound(MINF + "47_f.wav"),
+    # Sound(MINF + "48_f.wav"),
+    # Sound(MINF + "49_f.wav"),
+    # Sound(MINF + "50_f.wav"),
+    # Sound(MINF + "51_f.wav"),
+    # Sound(MINF + "52_f.wav"),
+    # Sound(MINF + "53_f.wav"),
+    # Sound(MINF + "54_f.wav"),
+    # Sound(MINF + "55_f.wav"),
+    # Sound(MINF + "56_f.wav"),
+    # Sound(MINF + "57_f.wav"),
+    # Sound(MINF + "58_f.wav"),
+    # Sound(MINF + "59_f.wav")
 ]
+MINUTE_DIR = "./sounds/minutes_0_59/"
+for file in os.listdir(MINUTE_DIR):
+    if file.endswith(".wav"):
+        minutes.insert(len(minutes),MINUTE_DIR + file)
 
 #now build inputs
 
@@ -129,6 +117,8 @@ SELECTION_UP = 'j'
 SELECTION_DOWN = 'k'
 SPEAK_TIME = ' '
 QUIT = 'q'
+
+# very minimal console output
 
 INVALID_INPUT = "This version of the Eye Free Clock only supports using the jkl; and space keys"
 RUNNING_CONFIRMATION = "The Eye Free Clock is now running, use jkl; and space to operate the clock"
