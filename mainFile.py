@@ -107,7 +107,7 @@ minutes = [
 MINUTE_DIR = "./sounds/minutes_0_59/"
 for file in os.listdir(MINUTE_DIR):
     if file.endswith(".wav"):
-        minutes.insert(len(minutes),MINUTE_DIR + file)
+        minutes.insert(len(minutes),Sound(MINUTE_DIR + file))
 
 #now build inputs
 
@@ -178,11 +178,30 @@ while True:
         spinner_list[menu_index][spinner_indices[menu_index]].play()
         uInput = readchar.readchar()
 
+#TODO: this is super ugly for no reason, fix it.
     elif uInput == SPEAK_TIME:
         menu_index = 0
-        for index in range(len(spinner_list)):
-            spinner_list[index][spinner_indices[index]].play_to_end()
+        day_index = spinner_indices[0]
+        hour_index = spinner_indices[1]
+        minute_index = spinner_indices[2]
+        # for index in range(len(spinner_list)):
+        #     spinner_list[index][spinner_indices[index]].play_to_end()
 
+        # Speak Day of week
+        days[day_index].play_to_end()
+        isAM = True
+        # Next construct hour/minute string and speak that
+        if hour_index > 11:
+            isAM = False
+            minutes[hour_index - 11].play_to_end()
+        else:
+            minutes[hour_index+1].play_to_end()
+        if (minute_index != 0):
+            minutes[minute_index].play_to_end()
+        if isAM:
+            Sound("./sounds/hours_am_pm/AM_f.wav").play_to_end()
+        else:
+            Sound("./sounds/hours_am_pm/PM_f.wav").play_to_end()
         uInput = readchar.readchar()
 
     else:
