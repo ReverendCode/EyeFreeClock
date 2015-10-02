@@ -11,12 +11,18 @@ from sound import Sound
 #first there probably should be some kind of response lists
 
 #audio cues for menu shifts??
-MENUS = "wav_files/menus_modes_navigation_f/"
+MENUS = "./sounds/menu_navigation/"
 clock_menu = [
     Sound(MENUS + "Set_day_of_week_f.wav"),
     Sound(MENUS + "Set_hour_f.wav"),
     Sound(MENUS + "Set_minutes_f.wav")
 ]
+
+exitLoop = [
+    Sound(MENUS + "press_again_to_quit_f.wav"),
+    Sound(MENUS + "Exiting_program_f.wav")
+]
+
 #programmatically add the sounds to the appropriate spinners (lists)
 days = []
 DAYS_DIR = "./sounds/days_of_week/"
@@ -27,6 +33,7 @@ for file in os.listdir(DAYS_DIR):
 
 
 #hours
+#This is done to keep things in the proper order without having to parse filenames
 hours = []
 HOURS_AM_DIR = "./sounds/hours_am_pm/hours_am/"
 HOURS_PM_DIR = "./sounds/hours_am_pm/hours_pm/"
@@ -41,68 +48,8 @@ for file2 in os.listdir(HOURS_PM_DIR):
 # If I knew python better I would generate these programmatically, but this is literally the first time I have ever seen
 # this language, I do like the intelliJ based ide though (PyCharm)
 
-# Update: turns out it wasn't that hard after all, I am leaving this huge list as a testament to my silliness
+# Update: turns out it wasn't that hard after all
 minutes = [
-    # Sound(MINF + "00_f.wav"),
-    # Sound(MINF + "01_f.wav"),
-    # Sound(MINF + "02_f.wav"),
-    # Sound(MINF + "03_f.wav"),
-    # Sound(MINF + "04_f.wav"),
-    # Sound(MINF + "05_f.wav"),
-    # Sound(MINF + "06_f.wav"),
-    # Sound(MINF + "07_f.wav"),
-    # Sound(MINF + "08_f.wav"),
-    # Sound(MINF + "09_f.wav"),
-    # Sound(MINF + "10_f.wav"),
-    # Sound(MINF + "11_f.wav"),
-    # Sound(MINF + "12_f.wav"),
-    # Sound(MINF + "13_f.wav"),
-    # Sound(MINF + "14_f.wav"),
-    # Sound(MINF + "15_f.wav"),
-    # Sound(MINF + "16_f.wav"),
-    # Sound(MINF + "17_f.wav"),
-    # Sound(MINF + "18_f.wav"),
-    # Sound(MINF + "19_f.wav"),
-    # Sound(MINF + "20_f.wav"),
-    # Sound(MINF + "21_f.wav"),
-    # Sound(MINF + "22_f.wav"),
-    # Sound(MINF + "23_f.wav"),
-    # Sound(MINF + "24_f.wav"),
-    # Sound(MINF + "25_f.wav"),
-    # Sound(MINF + "26_f.wav"),
-    # Sound(MINF + "27_f.wav"),
-    # Sound(MINF + "28_f.wav"),
-    # Sound(MINF + "29_f.wav"),
-    # Sound(MINF + "30_f.wav"),
-    # Sound(MINF + "31_f.wav"),
-    # Sound(MINF + "32_f.wav"),
-    # Sound(MINF + "33_f.wav"),
-    # Sound(MINF + "34_f.wav"),
-    # Sound(MINF + "35_f.wav"),
-    # Sound(MINF + "36_f.wav"),
-    # Sound(MINF + "37_f.wav"),
-    # Sound(MINF + "38_f.wav"),
-    # Sound(MINF + "39_f.wav"),
-    # Sound(MINF + "40_f.wav"),
-    # Sound(MINF + "41_f.wav"),
-    # Sound(MINF + "42_f.wav"),
-    # Sound(MINF + "43_f.wav"),
-    # Sound(MINF + "44_f.wav"),
-    # Sound(MINF + "45_f.wav"),
-    # Sound(MINF + "46_f.wav"),
-    # Sound(MINF + "47_f.wav"),
-    # Sound(MINF + "48_f.wav"),
-    # Sound(MINF + "49_f.wav"),
-    # Sound(MINF + "50_f.wav"),
-    # Sound(MINF + "51_f.wav"),
-    # Sound(MINF + "52_f.wav"),
-    # Sound(MINF + "53_f.wav"),
-    # Sound(MINF + "54_f.wav"),
-    # Sound(MINF + "55_f.wav"),
-    # Sound(MINF + "56_f.wav"),
-    # Sound(MINF + "57_f.wav"),
-    # Sound(MINF + "58_f.wav"),
-    # Sound(MINF + "59_f.wav")
 ]
 MINUTE_DIR = "./sounds/minutes_0_59/"
 for file in os.listdir(MINUTE_DIR):
@@ -117,6 +64,8 @@ SELECTION_UP = 'j'
 SELECTION_DOWN = 'k'
 SPEAK_TIME = ' '
 QUIT = 'q'
+
+exit_timer = 0
 
 # very minimal console output
 
@@ -140,10 +89,10 @@ print(RUNNING_CONFIRMATION)
 uInput = readchar.readchar()
 
 while True:
-    if uInput == QUIT:
-        break
+    if uInput != SPEAK_TIME:
+        exit_timer = 0
 
-    elif uInput == MENU_UP:
+    if uInput == MENU_UP:
         if menu_index == len(clock_menu) - 1 :
             menu_index = 0
         else:
@@ -178,31 +127,36 @@ while True:
         spinner_list[menu_index][spinner_indices[menu_index]].play()
         uInput = readchar.readchar()
 
-#TODO: this is super ugly for no reason, fix it.
     elif uInput == SPEAK_TIME:
-        menu_index = 0
-        day_index = spinner_indices[0]
-        hour_index = spinner_indices[1]
-        minute_index = spinner_indices[2]
-        # for index in range(len(spinner_list)):
-        #     spinner_list[index][spinner_indices[index]].play_to_end()
+        if exit_timer == 0:
+            exit_timer += 1
+            menu_index = 0
+            day_index = spinner_indices[0]
+            hour_index = spinner_indices[1]
+            minute_index = spinner_indices[2]
 
-        # Speak Day of week
-        days[day_index].play_to_end()
-        isAM = True
-        # Next construct hour/minute string and speak that
-        if hour_index > 11:
-            isAM = False
-            minutes[hour_index - 11].play_to_end()
-        else:
-            minutes[hour_index+1].play_to_end()
-        if (minute_index != 0):
-            minutes[minute_index].play_to_end()
-        if isAM:
-            Sound("./sounds/hours_am_pm/AM_f.wav").play_to_end()
-        else:
-            Sound("./sounds/hours_am_pm/PM_f.wav").play_to_end()
-        uInput = readchar.readchar()
+            days[day_index].play_to_end()
+            isAM = True
+            # Next construct hour/minute string and speak that
+            if hour_index > 11:
+                isAM = False
+                minutes[hour_index - 11].play_to_end()
+            else:
+                minutes[hour_index+1].play_to_end()
+            if (minute_index != 0):
+                minutes[minute_index].play_to_end()
+            if isAM:
+                Sound("./sounds/hours_am_pm/AM_f.wav").play_to_end()
+            else:
+                Sound("./sounds/hours_am_pm/PM_f.wav").play_to_end()
+            uInput = readchar.readchar()
+        elif exit_timer == 1:
+            exit_timer += 1
+            exitLoop[0].play_to_end()
+            uInput = readchar.readchar()
+        elif exit_timer == 2:
+            exitLoop[1].play_to_end()
+            break
 
     else:
         print(INVALID_INPUT)
