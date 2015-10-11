@@ -59,11 +59,10 @@ for file in os.listdir(MINUTE_DIR):
 #now build inputs
 
 MENU_UP = 'l'
-MENU_DOWN = ';'
+EXIT_SEQ = ';'
 SELECTION_UP = 'j'
 SELECTION_DOWN = 'k'
 SPEAK_TIME = ' '
-QUIT = 'q'
 
 exit_timer = 0
 
@@ -88,8 +87,27 @@ menu_index = 0
 print(RUNNING_CONFIRMATION)
 uInput = readchar.readchar()
 
+
+def changeSelection(moveUp):
+    theList = spinner_list[menu_index]
+    if moveUp == "up":
+        if spinner_indices[menu_index] == len(theList) - 1:
+            spinner_indices[menu_index] = 0
+        else:
+            spinner_indices[menu_index] += 1
+    else:
+        if spinner_indices[menu_index] == 0:
+            spinner_indices[menu_index] = len(theList) - 1
+        else:
+            spinner_indices[menu_index] -= 1
+
+    theList[spinner_indices[menu_index]].play()
+
+
+
+
 while True:
-    if uInput != SPEAK_TIME:
+    if uInput != EXIT_SEQ:
         exit_timer = 0
 
     if uInput == MENU_UP:
@@ -101,68 +119,47 @@ while True:
         clock_menu[menu_index].play()
         uInput = readchar.readchar()
 
-    elif uInput == MENU_DOWN:
-        if menu_index == 0:
-            menu_index = len(clock_menu) - 1
-        else:
-            menu_index -= 1
-        clock_menu[menu_index].play()
-        uInput = readchar.readchar()
+    elif uInput == EXIT_SEQ:
+       if exit_timer == 0:
+           exit_timer += 1
+           exitLoop[0].play_to_end()
+           uInput = readchar.readchar()
+       elif exit_timer == 1:
+           exitLoop[1].play_to_end()
+           break
 
     elif uInput == SELECTION_UP:
-        if spinner_indices[menu_index] == len(spinner_list[menu_index]) - 1:
-            spinner_indices[menu_index] = 0
-        else:
-            spinner_indices[menu_index] += 1
-
-        spinner_list[menu_index][spinner_indices[menu_index]].play()
+        changeSelection("up")
         uInput = readchar.readchar()
 
     elif uInput == SELECTION_DOWN:
-        if spinner_indices[menu_index] == 0:
-            spinner_indices[menu_index] = len(spinner_list[menu_index]) - 1
-        else:
-            spinner_indices[menu_index] -= 1
-
-        spinner_list[menu_index][spinner_indices[menu_index]].play()
+        changeSelection("down")
         uInput = readchar.readchar()
 
     elif uInput == SPEAK_TIME:
-        if exit_timer == 0:
-            exit_timer += 1
-            menu_index = 0
-            day_index = spinner_indices[0]
-            hour_index = spinner_indices[1]
-            minute_index = spinner_indices[2]
+        day_index = spinner_indices[0]
+        hour_index = spinner_indices[1]
+        minute_index = spinner_indices[2]
 
-            days[day_index].play_to_end()
-            isAM = True
-            # Next construct hour/minute string and speak that
-            if hour_index > 11:
-                isAM = False
-                minutes[hour_index - 11].play_to_end()
-            else:
-                minutes[hour_index+1].play_to_end()
-            if (minute_index != 0):
-                minutes[minute_index].play_to_end()
-            if isAM:
-                Sound("./sounds/hours_am_pm/AM_f.wav").play_to_end()
-            else:
-                Sound("./sounds/hours_am_pm/PM_f.wav").play_to_end()
-            uInput = readchar.readchar()
-        elif exit_timer == 1:
-            exit_timer += 1
-            exitLoop[0].play_to_end()
-            uInput = readchar.readchar()
-        elif exit_timer == 2:
-            exitLoop[1].play_to_end()
-            break
+        days[day_index].play_to_end()
+        isAM = True
+        # Next construct hour/minute string and speak that
+        if hour_index > 11:
+            isAM = False
+            minutes[hour_index - 11].play_to_end()
+        else:
+            minutes[hour_index+1].play_to_end()
+        if (minute_index != 0):
+            if minute_index < 10:
+                minutes[0].play_to_end()
+            minutes[minute_index].play_to_end()
+        if isAM:
+            Sound("./sounds/hours_am_pm/AM_f.wav").play_to_end()
+        else:
+            Sound("./sounds/hours_am_pm/PM_f.wav").play_to_end()
+        uInput = readchar.readchar()
+
 
     else:
         print(INVALID_INPUT)
         uInput = readchar.readchar()
-
-
-
-
-
